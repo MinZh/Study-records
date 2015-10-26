@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+    
+    <package name="struts2" extends="json-default" namespace="/">
+    
+         <action name="getLeiMu" class="faBuDanJianChanPinAction" method="getLeiMu">
+             	<result type="json">
+             		<param name="root">JSArr</param>
+             	</result>
+             </action>
+         <action name="getShangPinByShangPinID" class="faBuDanJianChanPinAction" method="getShangPinByShangPinID">
+             	<result type="json">
+             		<param name="root">JSObj</param>
+             	</result>
+             </action>        
+             
+          <action name="getShangPinAll" class="faBuDanJianChanPinAction" method="getShangPinAll">
+             	<result type="json">
+             		<param name="root">JSArr</param>
+             	</result>
+             </action>        
+         <action name="getChanPinXian" class="faBuDanJianChanPinAction" method="getChanPinXian">
+             	<result type="json">
+             		<param name="root">JSArr</param>
+             	</result>
+             </action>       
+             <action name="getFenXiaoFangShi" class="faBuDanJianChanPinAction" method="getFenXiaoFangShi">
+             	<result type="json">
+             		<param name="root">JSArr</param>
+             	</result>
+             </action>      
+             <action name="editChanPin" class="faBuDanJianChanPinAction" method="editChanPin">
+             	<result type="json">
+             		<param name="root">MSG</param>
+             	</result>
+             </action>    
+              <action name="queryChanPinZiLiao" class="faBuDanJianChanPinAction" method="queryChanPinZiLiao">
+             	<result type="json">
+             		<param name="root">JSObj</param>
+             	</result>
+             </action> 
+             <action name="getChanPinMingXi" class="faBuDanJianChanPinAction" method="getChanPinMingXi">
+             	<result type="json">
+             		<param name="root">JSObj</param>
+             	</result>
+             </action> 
+             <action name="queryChanPinZiLiaoWeiPuHuo" class="faBuDanJianChanPinAction" method="queryChanPinZiLiaoWeiPuHuo">
+             	<result type="json">
+             		<param name="root">JSObj</param>
+             	</result>
+             </action>  
+    
+    </package>
+
+</struts>    

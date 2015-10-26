@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>faBuDanJianChanPin.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+	
+	<script type="text/javascript" src="jquery-easyui-1.3.3/jquery.min.js"></script>
+	<script type="text/javascript" src="jquery-easyui-1.3.3/jquery.easyui.min.js"></script>
+	<link rel="stylesheet" href="jquery-easyui-1.3.3/themes/default/easyui.css" type="text/css"></link>
+	<link rel="stylesheet" href="jquery-easyui-1.3.3/themes/icon.css" type="text/css"></link>
+	
+	<script type="text/javascript" src="../jQuery/jquery-1.10.2.js"></script> 
+  	<script type="text/javascript" src="../jQuery/jquery-ui-1.10.4.custom/development-bundle/ui/jquery.ui.core.js"></script>
+  	<script type="text/javascript" src="../jQuery/jquery-ui-1.10.4.custom/development-bundle/ui/jquery.ui.widget.js"></script>
+  	<script type="text/javascript" src="../jQuery/jquery-ui-1.10.4.custom/development-bundle/ui/jquery.ui.accordion.js"></script>
+  	<script type="text/javascript" src="../jQuery/CJL.0.1.min.js"></script>
+  	<script type="text/javascript" src="../jQuery/ImageZoom.js"></script>
+  	<script type="text/javascript" src="../jQuery/jquery.scrollTo.js"></script>
+  
+  	<link rel="stylesheet" href="../jQuery/jquery-ui-1.10.4.custom/development-bundle/themes/base/jquery.ui.all.css" type="text/css"></link>
+  	<link rel="stylesheet" href="../jQuery/jquery-ui-1.10.4.custom/development-bundle/demos/demos.css" type="text/css"></link>
+  	
+  	
+  	
+  	<link rel="stylesheet" href="css/yaoQingStyle.css" type="text/css"></link>
+  	<script type="text/javascript">
+  		$(document).ready(function(){
+ 			$('#faBuChanPin').window('close');
+ 			$('#editZiLiao').window('close');
+ 			$('#faBuChengGong').window('close');
+ 			$('#woDeChanPinKu').window('close');
+ 			$('#cboLeiMu').combobox({url:'getLeiMu'});
+ 			$('#cboLeiMu').combobox('setValue',1);
+ 			$("#categoryTree").tree("expandAll");
+ 			$('#chanpinxinxi').datagrid({
+  				url:'getChanPinZiLiao',
+  				onSelect:function(){
+  					var id = $('#chanpinxinxi').datagrid('getSelected').shangPinId;
+  					$('#shangPinId').val(id);
+  				}
+  			});
+ 		});
+ 		function reloadDGChanPinXinXi(){
+  			$('#chanpinxinxi').datagrid('reload');
+  		}
+ 		function openfaBuChanPin(){
+ 			$('#faBuChanPin').window('open');
+ 		}
+ 		function typeChosed(){
+  			var id = $("#categoryTree").tree("getSelected").id;
+  			parent.choseType(id);
+  		}
+  		function editXiaYiBu(){
+  		    $('#faBuChanPin').window('close');
+ 			$('#editZiLiao').window('open');
+  		
+  		}
+  		function queDing(){
+  		    $('#faBuChanPin').window('close');
+ 			$('#editZiLiao').window('close');
+ 			$('#faBuChengGong').window('open');
+ 			alert("发布成功!");
+  		
+  		}
+  		function editKuCun(){
+  		    $('#faBuChanPin').window('close');
+ 			$('#editZiLiao').window('close');
+ 			$('#faBuChengGong').window('close');
+ 			$('#woDeChanPinKu').window('open');
+  		
+  		}
+  		function returnBtnColumn(shangPinId,row,rowIndex){
+      	return "<a >铺货否</a> "+
+  		       "<a onclick='javascript:xiuGai("+shangPinId+","+rowIndex+")'>暂停销售</a> "+
+  		       "<a onclick='javascript:edit("+shangPinId+","+rowIndex+")'>编辑</a> ";  		
+  	}
+  	function edit(shangPinId,rowIndex){
+           $('#faBuChengGong').val(shangPinId);
+           openWindow('ChuKuGuanLi/editShengChanLingLiaoDan.jsp','修改生产入库单');
+     
+ }
+       function categoryOnClick(){
+  		 var id=$("#categoryTree").tree("getSelected").id;
+  		 var url1="getShangPinByShangPinID?shangPinId="+id;
+  		 //alert(url);
+  		    $('#chanpinxinxi').datagrid({
+  		      url:url1
+  		    });   
+  		}
+  	</script>
+  	
+  </head>
+  
+  <body>
+    <header  style="width:auto;height:60px;padding:15px 25px 10px 10px;margin-bottom:15px;">    	
+    	<!-- logo -->
+    	<div id="logo" style="float:left;width:330px;height:60px;">
+    		<img src="img/taobaofenxiao.jpg"></img>
+    	</div>
+    	<!-- logo End -->
+    	<!-- search -->     	
+		<div class="top-mallSearch" id="J_MallSearch">
+			<div class="top-mallSearch-bg">
+				<form accept-charset="gbk" name="searchTop" action="http://gongxiao.tmall.com/search.htm" class="mallSearch-form clearfix">
+					<fieldset>
+						<legend>天猫搜索</legend>
+						<div id="J_SelectTypes" class="top-mallSearch-type">
+							<a class="active search-product" data-type="p" href="#" data-label="输入您想要的分销产品">分销产品<i></i></a>
+							<a class="search-shop" data-type="s" href="#" data-label="输入关键字：公司名、主营品牌、授权品牌、主营类目">供  应  商</a>
+						</div>
+                        <div class="mallSearch-input clearfix">
+							<label for="mq" style="visibility: visible; color: rgb(102, 102, 102);">
+								
+							</label>
+                            <input  type="text" accesskey="s" autocomplete="off" class="top-mq" maxlength="60" value="" id="keyword-f" name="key" onclick="qingkong()">
+                            <button type="submit">搜索<s></s></button>
+                            <input id="J_Type" type="hidden" name="type" value="p">
+                            <input id="J_Cat" type="hidden" name="cat" value="all">
+						</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>	
+    	<!-- search End -->
+    	
+    </header>
+    <!-- 我是供应商 -->
+    <nav class="center" style="width:auto;height:40px;color:#ffffff;margin-bottom:10px;" >
+    	<div class="fl" style="width:150px;height:40px;">
+			<a style="text-decoration: none;background-color:#469AB4;color:#ffffff;display:block;padding-left: 15px;line-height:40px;" href="#">
+				<font><strong>我是供货商</strong></font>
+			</a>
+		</div>    		
+    </nav>
+    <!-- 我是供应商 End -->
+    <!-- 菜单&&邀请分销商合作 -->    
+    
+    <div class="easyui-layout" style="padding:12px;split:true; margin-left:25px;height:780px;">	
+    	<!-- 菜单 -->	
+		<div data-options="region:'west',split:true" style="width:180px;background-color:#CCE8F8;height:auto">	 
+		    
+			<div class="easyui-accordion" fit="true">
+				<div title="分销商管理" style="overflow:auto;padding:10px;">
+					<a class="easyui-linkbutton" style="color:#469AB4;" data-options="plain:true" 
+    					href="#">合作中的分销商</a><br/>
+    				<a class="easyui-linkbutton" style="color:#469AB4;" data-options="plain:true" 
+    					href="#">申请中的分销商</a><br/>
+					<a class="easyui-linkbutton" style="color:#469AB4;" data-options="plain:true" 
+    					onclick="$('#inviteSalesMan').window('open');">邀请分销商合作</a><br/>
+					<a class="easyui-linkbutton" style="color:#469AB4;" data-options="plain:true" 
+    					href="#">分销商等级</a><br/>
+    				<a class="easyui-linkbutton" style="color:#469AB4;" data-options="plain:true" 
+    					href="#">设置等级折扣</a><br/>
+    				<a class="easyui-linkbutton" style="color:#469AB4;" data-options="plain:true" 
+    					href="#">经销商品销售跟踪</a><br/>
+				</div>
+				<div title="产品管理" style="overflow:auto;padding:10px;">
+					<a class="easyui-linkbutton" style="color:#469AB4;" data-options="plain:true" 
+    					onclick="editKuCun()">我的产品库</a><br/>
+					<a class="easyui-linkbutton" style="color:#469AB4;" data-options="plain:true" 
+    					href="#">我的产品线</a><br/>
+    				<a class="easyui-linkbutton" style="color:#469AB4;" data-options="plain:true" 
+    					href="#">批量导入新产品</a><br/>
+           			<a class="easyui-linkbutton" style="color:#469AB4;" data-options="plain:true" 
+    					onclick="openfaBuChanPin()">单件发布新产品</a>
+	     		</div>
+	     		<div title="采购单管理" style="overflow:auto;padding:10px;">
+	  				<p style="color:#469AB4;">我的采购单</p>
+	     		</div>
+	      		<div title="结算管理" style="overflow:auto;padding:10px;">
+	  				<p style="color:#469AB4;">我的购物车</p>
+	  				<p style="color:#469AB4;">我的账户</p>
+	     		</div>
+			</div>	
+		</div>	
+
+		<!-- 菜单 End -->
+		<!--主体-->
+		<div data-options="region:'center',split:true" >
+		
+	  <!-- ---------------------------------------------选择类目window1--------------------------------------------- -->
+        <div id="faBuChanPin"  class="easyui-window"  data-options="fit:true,inline:true,draggable:false,resizable:false,
+    	  collapsible:false,minimizable:false,maximizable:false">
+    	  <div class="easyui-layout" style="width:1103px;height:680px;">
+    	     <div data-options="region:'north',border:false" style="width:1000px;height:150px;" >
+<!-- 	         <div class="easyui-layout" data-options="region:'north',split:true"  > -->
+	           <div  style="margin-left:20px;margin-top:20px;"><font color="gray" size="2" >产品管理>>单个发布产品</font></div>
+	          <table class="center" style="width:800px;height:20px;margin-left:60px;margin-top:20px;">
+  	          <tr>
+  	                <th class="fl" style="width:60px;height:20px;background-color:#0099FF;color:#ffffff;">
+  	              	<a style="text-decoration:none;display:block;padding-left:10px;line-height:30px;font-size:15px;margin-left:20px;" ><font><strong>1.选择类目=======></strong>
+  	                </font>
+  	               </a>
+  	            </th>
+  	                 <th class="fl" style="width:100px;height:20px;margin-left:20px;background-color:Silver;">
+  	                <a style="text-decoration:none;display:block;padding-left:10px;line-height:30px;font-size:15px;margin-left:20px;" ><font><strong>2.填写产品信息=======></strong>
+  	                </font>
+  	               </a>
+  	             </th>
+  	               <th class="fl" style="width:100px;height:20px;margin-left:20px;background-color:Silver;">
+  	               <a style="text-decoration:none;display:block;padding-left:10px;line-height:30px;font-size:15px;margin-left:10px;" ><font><strong>3.发布成功</strong>
+  	                </font>
+  	               </a>
+  	            </th>
+  	          </tr>
+  	        </table>
+  	        <div  style="width:600px;height:30px;overflow:hidden;margin-top:5px;font-size:14px;margin-left:20px;margin-top:20px;">
+                                                       您经常选择的项目:<input class="easyui-combobox" id="cboLeiMu" name="leiMuMingCheng"
+                          data-options="valueField:'leiMuId',textField:'leiMuMingCheng'" style="width:200px;"></input>  
+            </div>   
+  	    </div>
+  	    
+  	   <div data-options="region:'center',split:true,border:false" style="width:1000px;height:650px;" >
+             <input type="hidden" id="shangPinId" value="0" />
+           <div class="easyui-layout" style="width:1000px;height:400px;">
+           <div data-options="region:'west',split:true" style="border:2px solid #ccc;width:300px;margin-left:5px;margin-left:20px;">
+                    
+    	                    <ul id="categoryTree" class="easyui-tree" data-options="url:'getShangPinAll',animate:true,lines:true,onDblClick:categoryOnClick">
+
+    	                  </ul>
+                 </div>
+             
+                 
+           <div  data-options="region:'center',split:true" style="width:1000px;height:400px;">
+
+					<table id="chanpinxinxi" class="easyui-datagrid" 
+			data-options="rownumbers:true,singleSelect:true,scrolling:true,idField:'shangPinId'">
+
+						<thead>
+							<tr>
+							    <th data-options="field:'ck',checkbox:true">
+							    <input type="checkbox" checked onchange="$('#chanpinxinxi').datagrid({selectOnCheck:$(this).is(':checked')})"></th>
+							    <th data-options="field:'shangPinMingCheng'" width="100">商品名称</th>
+								<th data-options="field:'shangJiaBianMa',align:'center'" width="80">商家编码</th>
+								<th data-options="field:'shangPinLeiBie',align:'center'" width="120">商品类别</th>
+								<th data-options="field:'dangQianJiaGe',align:'center'" width="80">当前价格</th>
+								<th data-options="field:'daoRuZhuangTai',align:'center'" width="80">导入状态</th>
+							</tr>
+						</thead>
+					</table>
+
+                 </div>          
+  	       </div>
+
+  	          <div  data-options="region:'south',split:true,border:false" >
+                  
+                    <div data-options="region:'center',split:true">
+                      <div  style="width:500px;height:30px;overflow:hidden;margin-top:5px;font-size:14px;margin-left:20px;">您当前选择的是:<font></font></div>
+                    </div>
+                   <div data-options="region:'south',split:true">
+                      <button style="background-color:#07D0D8;width:90px;height:25px;border:1px solid black;margin-left:900px;margin-top:20px;" onclick="editXiaYiBu()"><strong style="font-size:16px;color:#ffffff;" >下一步</strong></button>   
+                  </div>
+              
+           </div>
+      </div>
+    </div>      
+          
+  </div>
+  
+   <!-- ---------------------------------------------选择类目window1--------------------------------------------- -->
+   
+    <!-- --------------------------------------------填写产品信息window2--------------------------------------------- -->
+      
+    <div id="editZiLiao"  class="easyui-window"  data-options="fit:true,inline:true,draggable:false,resizable:false,
+    	  collapsible:false,minimizable:false,maximizable:false">
+         <div class="easyui-layout" data-options="region:'north',split:true"  >
+	           <div  style="margin-left:20px;margin-top:20px;"><font color="gray" size="2" >产品管理>>单个发布产品</font></div>
+	          <table class="center" style="width:800px;height:20px;margin-left:90px;margin-top:20px;">
+  	          <tr>
+  	             <th class="fl" style="width:100px;height:20px;margin-left:20px;background-color:Silver;">
+  	               <a style="text-decoration:none;display:block;padding-left:10px;line-height:30px;font-size:15px;margin-left:20px;" ><font><strong>1.选择类目=======></strong>
+  	                </font>
+  	               </a>
+  	            </th>
+  	                <th class="fl" style="width:60px;height:20px;background-color:#0099FF;color:#ffffff;">
+  	                <a style="text-decoration:none;display:block;padding-left:10px;line-height:30px;font-size:15px;margin-left:20px;" ><font><strong>2.填写产品信息=======></strong>
+  	                </font>
+  	               </a>
+  	             </th>
+  	               <th class="fl" style="width:100px;height:20px;margin-left:20px;background-color:Silver;">
+  	               <a style="text-decoration:none;display:block;padding-left:10px;line-height:30px;font-size:15px;margin-left:10px;" ><font><strong>3.发布成功</strong>
+  	                </font>
+  	               </a>
+  	            </th>
+  	          </tr>
+  	        </table>
+  	    </div>
+        
+       <div data-options="region:'center',split:true" >
+              <div style="margin-left:80px;width:800px;height:40px;margin-top:20px;"><font size=3> 产品标题:</font><font color="red" size="3">*</font><input  type="text" style="margin-left:20px;width:500px;" ></input>　限定在30个字内(60字符)</div>  
+              <div style="margin-left:80px;width:800px;height:40px;"><font size=3> 所属产品线:</font><font color="red" size="3">*　</font><input class="easyui-combobox" id="ChanPinXianID" name="chanPinXian"
+                          data-options="url:'getChanPinXian',valueField:'chanPinXianID',textField:'chanPinXian'"></input> </div> 
+              <div style="margin-left:80px;width:800px;height:40px;"><font size=3> 分销方式:</font><font color="red" size="3">*　</font><input class="easyui-combobox" id="ChanPinXianID" name="fenXiaoFangShi"
+                          data-options="url:'getChanPinXian',valueField:'fenXiaoFangShiID',textField:'fenXiaoFangShi'"></input> </div> 
+              <div style="margin-left:80px;width:300px;height:40px;"><font size=3>市场价格:</font><font color="red" size="3">*</font><input  type="text" style="margin-left:20px;" ></input></div>  
+              <div style="margin-left:80px;width:600px;height:40px;"><font size=3>零售价区间:</font><font color="red" size="3">*　</font><input  type="text" >　元-<input  type="text" style="margin-left:20px;" ></input>　元</div>
+              <font color="Gray" style="margin-left:80px;">代销产品下载发布时,系统会限制其价格在此范围内;</font><br><font color="Gray" style="margin-left:80px;">经销商品下载发布时不收此限制,但供应商可在"经销商品销售跟踪"中跟踪其实际销售价格.</font><br><font color="Gray" style="margin-left:80px;">分销商销售商品时价格将会受此区间限制,您可以通过设置销售控制来启动或取消此限制.</font>
+              <div style="margin-left:80px;width:600px;height:40px;margin-top:20px;"><font size=3>采购价格:</font><font color="red" size="3">*　</font><a class="fl" style="background-color:#0099FF;color:#ffffff;font-size:6;">代销</a>　普通分销商采购价格<input  type="text" style="margin-left:20px;" >　元
+              <br><font color="red" size="3" style="margin-left:70px;">*　</font><a class="fl" style="background-color:red;color:#ffffff;font-size:6;">经销</a>　普通分销商采购价格<input  type="text" style="margin-left:20px;" >　元</div>
+              <div style="margin-left:80px;width:300px;height:40px;margin-top:20px;"><font size=3>商家编码:</font><font color="red" size="3">*</font><input  type="text" style="margin-left:20px;" ></input></div>  
+              <div style="margin-left:80px;width:300px;height:40px;"><font size=3>产品库存:</font><font color="red" size="3">*</font><input  type="text" style="margin-left:20px;" >　件</div>
+              <div style="margin-left:80px;width:300px;height:40px;"><font size=3>警戒库存:</font><font color="red" size="3">*</font><input  type="text" style="margin-left:20px;" >　件</div>
+      </div>
+       <div  data-options="region:'south',split:true">
+
+                 <div data-options="region:'south',split:true">
+                    <button style="background-color:#07D0D8;width:90px;height:25px;border:1px solid black;margin-left:900px;margin-top:20px;" onclick="queDing()"><strong style="font-size:16px;color:#ffffff;">确定</strong></button>   
+                 </div>
+              
+           </div>
+    
+  </div>
+
+  
+    
+    <!-- --------------------------------------------填写产品信息window2--------------------------------------------- -->
+     <!-- --------------------------------------------发布成功window3--------------------------------------------- -->
+    
+    <div id="faBuChengGong"  class="easyui-window" data-options="fit:true,inline:true,draggable:false,resizable:false,
+    	  collapsible:false,minimizable:false,maximizable:false">
+          <div class="easyui-layout" data-options="region:'north',split:true"  >
+	           <div  style="margin-left:20px;margin-top:20px;"><font color="gray" size="2" >产品管理>>单个发布产品</font></div>
+	          <table class="center" style="width:800px;height:20px;margin-left:90px;margin-top:20px;">
+  	          <tr>
+  	             <th class="fl" style="width:100px;height:20px;margin-left:20px;background-color:Silver;">
+  	               <a style="text-decoration:none;display:block;padding-left:10px;line-height:30px;font-size:15px;margin-left:20px;" ><font><strong>1.选择类目=======></strong>
+  	                </font>
+  	               </a>
+  	            </th>
+  	                <th class="fl" style="width:100px;height:20px;margin-left:20px;background-color:Silver;">
+  	              	<a style="text-decoration:none;display:block;padding-left:10px;line-height:30px;font-size:15px;margin-left:20px;" ><font><strong>2.填写产品信息=======></strong>
+  	                </font>
+  	               </a>
+  	             </th>
+  	               <th class="fl" style="width:60px;height:20px;background-color:#0099FF;color:#ffffff;">
+  	               <a style="text-decoration:none;display:block;padding-left:10px;line-height:30px;font-size:15px;margin-left:10px;" ><font><strong>3.发布成功</strong>
+  	                </font>
+  	               </a>
+  	            </th>
+  	          </tr>
+  	        </table>
+  	    </div>
+        
+       <div data-options="region:'center',split:true" >
+              <div style="margin-left:80px;width:800px;height:40px;margin-top:20px;"><font size=3> 产品标题:</font><font color="red" size="3">*</font><input  type="text" style="margin-left:20px;width:500px;" ></input>　限定在30个字内(60字符)</div>  
+              <div style="margin-left:80px;width:800px;height:40px;"><font size=3> 所属产品线:</font><font color="red" size="3">*　</font><input class="easyui-combobox" id="ChanPinXianID" name="chanPinXian"
+                          data-options="url:'getChanPinXian',valueField:'chanPinXianID',textField:'chanPinXian'"></input> </div> 
+              <div style="margin-left:80px;width:800px;height:40px;"><font size=3> 分销方式:</font><font color="red" size="3">*　</font><input class="easyui-combobox" id="ChanPinXianID" name="fenXiaoFangShi"
+                          data-options="url:'getChanPinXian',valueField:'fenXiaoFangShiID',textField:'fenXiaoFangShi'"></input> </div> 
+              <div style="margin-left:80px;width:300px;height:40px;"><font size=3>市场价格:</font><font color="red" size="3">*</font><input  type="text" style="margin-left:20px;" ></input></div>  
+              <div style="margin-left:80px;width:600px;height:40px;"><font size=3>零售价区间:</font><font color="red" size="3">*　</font><input  type="text" >　元-<input  type="text" style="margin-left:20px;" ></input>　元</div>
+              <font color="Gray" style="margin-left:80px;">代销产品下载发布时,系统会限制其价格在此范围内;</font><br><font color="Gray" style="margin-left:80px;">经销商品下载发布时不收此限制,但供应商可在"经销商品销售跟踪"中跟踪其实际销售价格.</font><br><font color="Gray" style="margin-left:80px;">分销商销售商品时价格将会受此区间限制,您可以通过设置销售控制来启动或取消此限制.</font>
+              <div style="margin-left:80px;width:600px;height:40px;margin-top:20px;"><font size=3>采购价格:</font><font color="red" size="3">*　</font><a class="fl" style="background-color:#0099FF;color:#ffffff;font-size:6;">代销</a>　普通分销商采购价格<input  type="text" style="margin-left:20px;" >　元
+              <br><font color="red" size="3" style="margin-left:70px;">*　</font><a class="fl" style="background-color:red;color:#ffffff;font-size:6;">经销</a>　普通分销商采购价格<input  type="text" style="margin-left:20px;" >　元</div>
+              <div style="margin-left:80px;width:300px;height:40px;margin-top:20px;"><font size=3>商家编码:</font><font color="red" size="3">*</font><input  type="text" style="margin-left:20px;" ></input></div>  
+              <div style="margin-left:80px;width:300px;height:40px;"><font size=3>产品库存:</font><font color="red" size="3">*</font><input  type="text" style="margin-left:20px;" >　件</div>
+              <div style="margin-left:80px;width:300px;height:40px;"><font size=3>警戒库存:</font><font color="red" size="3">*</font><input  type="text" style="margin-left:20px;" >　件</div>
+      </div>
+        
+    </div>
+    
+     <!-- --------------------------------------------发布成功window3--------------------------------------------- -->
+      <!-- --------------------------------------------我的产品库window4--------------------------------------------- -->
+        <div id="woDeChanPinKu"  class="easyui-window" data-options="fit:true,inline:true,draggable:false,resizable:false,
+    	  collapsible:false,minimizable:false,maximizable:false">
+          <div class="easyui-layout" data-options="region:'north',split:true"  >
+             <div  style="margin-left:20px;margin-top:20px;"><font color="gray" size="2" >产品管理>>我的产品库</font></div>  
+               <div style="margin-left:20px;width:800px;height:40px;margin-top:30px;"><font size=2> 选择您需要查看的产品线:　</font><input class="easyui-combobox" id="ChanPinXianID" name="chanPinXian"
+                    data-options="url:'getChanPinXian',valueField:'chanPinXianID',textField:'chanPinXian'"></input> 
+                    
+               <a class="easyui-linkbutton" style="color:#0099FF;" data-options="plain:true" onclick="">编辑/添加产品线</a><br/>
+                    
+               </div> 
+         </div>
+         
+         <div data-options="region:'center',split:true" >
+             <div class="easyui-tabs" style="width:1000px;height:auto;margin-left:20px;">
+             <!-- 已铺货 -->
+                 <div title="已铺货" style="padding:10px">
+                    <table>
+                       <tr>
+                         <th><a style="width:300px;height:30px;align:right;"><font size=2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;商家编码:&nbsp;</font><input type="text" style="width:160px;"></input></a>
+                         </th>
+                         <th><a style="width:200px;height:30px;"><font size=2>&nbsp;&nbsp;&nbsp;分销方式:&nbsp;</font><input class="easyui-combobox" id="ChanPinXianID" name="fenXiaoFangShi"
+                          data-options="url:'getChanPinXian',valueField:'fenXiaoFangShiID',textField:'fenXiaoFangShi'" style="height:20px;"></input></a>
+                         </th>   
+                         <th><a style="width:200px;height:30px;"><font size=2>&nbsp;&nbsp;&nbsp;库存状态:&nbsp;</font><input class="easyui-combobox" id="KuCunZhuangTaiID" name="kuCunZhuangTai"
+                          data-options="url:'getChanPinXian',valueField:'kuCunZhuangTaiID',textField:'kuCunZhuangTai'" style="height:20px;"></input></a>
+                         </th>  
+                         <th><a style="width:200px;height:30px;"><font size=2>&nbsp;&nbsp;&nbsp;来源:&nbsp;</font><input class="easyui-combobox" id="LaiYuanID" name="laiYuan"
+                          data-options="url:'getChanPinXian',valueField:'laiYuanID',textField:'laiYuan'" style="height:20px;"></input></a>
+                         </th> 
+                      </tr>
+                      <tr>
+                          <th><a style="width:200px;height:30px;margin-top:30px;"><font size=2>经销下单是否需要授权:&nbsp;<input class="easyui-combobox" id="ShouQuanID" name="shouQuanFou"
+                          data-options="url:'getChanPinXian',valueField:'shouQuanID',textField:'shouQuanFou'" style="height:20px;"></input></font></a>
+                          </th> 
+                           <th><a style="width:300px;height:30px;"><font size=2>&nbsp;&nbsp;&nbsp;产品名称:&nbsp;</font><input  type="text" style="width:135px;"></input></a>
+                         </th>
+                          <th>
+                          </th>
+                          <th>
+                             <button style="background-color:#07D0D8;width:90px;height:25px;border:1px solid black;margin-left:190px;" onclick="chaXun()"><strong style="font-size:16px;color:#ffffff;">查询</strong></button>   
+                          </th>
+                     </tr>
+                  </table>
+             
+                 </div>
+                 <!-- --已铺货end-- -->
+                 <!-- --未铺货---- ---->
+                 <div title="未铺货" style="padding:10px">
+                     <div title="已铺货" style="padding:10px">
+                      <table>
+                       <tr>
+                         <th><a style="width:300px;height:30px;align:right;"><font size=2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;商家编码:&nbsp;</font><input type="text" style="width:160px;"></input></a>
+                         </th>
+                         <th><a style="width:200px;height:30px;"><font size=2>&nbsp;&nbsp;&nbsp;分销方式:&nbsp;</font><input class="easyui-combobox" id="ChanPinXianID" name="fenXiaoFangShi"
+                          data-options="url:'getChanPinXian',valueField:'fenXiaoFangShiID',textField:'fenXiaoFangShi'" style="height:20px;"></input></a>
+                         </th>   
+                         <th><a style="width:200px;height:30px;"><font size=2>&nbsp;&nbsp;&nbsp;库存状态:&nbsp;</font><input class="easyui-combobox" id="KuCunZhuangTaiID" name="kuCunZhuangTai"
+                          data-options="url:'getChanPinXian',valueField:'kuCunZhuangTaiID',textField:'kuCunZhuangTai'" style="height:20px;"></input></a>
+                         </th>  
+                         <th><a style="width:200px;height:30px;"><font size=2>&nbsp;&nbsp;&nbsp;来源:&nbsp;</font><input class="easyui-combobox" id="LaiYuanID" name="laiYuan"
+                          data-options="url:'getChanPinXian',valueField:'laiYuanID',textField:'laiYuan'" style="height:20px;"></input></a>
+                         </th> 
+                      </tr>
+                      <tr>
+                          <th><a style="width:200px;height:30px;margin-top:30px;"><font size=2>经销下单是否需要授权:&nbsp;<input class="easyui-combobox" id="ShouQuanID" name="shouQuanFou"
+                          data-options="url:'getChanPinXian',valueField:'shouQuanID',textField:'shouQuanFou'" style="height:20px;"></input></font></a>
+                          </th> 
+                           <th><a style="width:300px;height:30px;"><font size=2>&nbsp;&nbsp;&nbsp;产品名称:&nbsp;</font><input  type="text" style="width:135px;"></input></a>
+                         </th>
+                          <th>
+                          </th>
+                          <th>
+                             <button style="background-color:#07D0D8;width:90px;height:25px;border:1px solid black;margin-left:190px;" onclick="chaXun()"><strong style="font-size:16px;color:#ffffff;">查询</strong></button>   
+                          </th>
+                     </tr>
+                  </table>
+             
+                 </div>
+             </div>
+               <!------ 未铺货end ------>
+                </div>
+              <!-- --center-- -->
+               <!-- ---west-- -->
+               <div data-options="region:'west',split:true" >
+                    <table style="margin-left:30px;margin-top:10px;">
+                         <tr>
+                             <th><button style="background-color:#62B7D1;"><font style="font-size:15px;color:#ffffff;">暂停销售</font></button> 
+                             <th><button style="background-color:#62B7D1;"><font style="font-size:15px;color:#ffffff;">设置邮费</font></button> 
+                             <th><button style="background-color:#62B7D1;"><font style="font-size:15px;color:#ffffff;">调价</font></button> 
+                             <th><button style="background-color:#62B7D1;"><font style="font-size:15px;color:#ffffff;">设置等级折扣</font></button> 
+                             <th><button style="background-color:#62B7D1;"><font style="font-size:15px;color:#ffffff;">设置分销方式</font></button> 
+                             <th><button style="background-color:#62B7D1;"><font style="font-size:15px;color:#ffffff;">同步店铺产品信息</font></button> 
+                             <th><button style="background-color:#62B7D1;"><font style="font-size:15px;color:#ffffff;">添加产品</font></button> 
+                         </tr>
+                    </table>
+           <div style="margin:10px 0;margin-left:20px;">
+	      
+	       <table id="yiPuHuoXinXi" class="easyui-datagrid" style="width:900px;height:250px;"
+			data-options="rownumbers:true,singleSelect:true,scrolling:true,idField:'shangPinId',url:'../datagrid/datagrid_data1.json'">
+		   <thead>
+			 <tr>
+			    <th  data-options="field:'ck',checkbox:true" onchange="$('#yiPuHuoXinXi').datagrid({checkOnSelect:$(this).is(':checked')})">全选</th>
+				<th data-options="field:'chanPinBianHao',width:80">产品编号</th>
+				<th data-options="field:'itemid',width:100" >产品线</th>
+				<th data-options="field:'productid',width:100" >采购价(元)</th>
+				<th data-options="field:'listprice',width:100,align:'right'" >零售价区间(元)</th>
+				<th data-options="field:'unitcost',width:80,align:'right'" >库存状态</th>
+				<th data-options="field:'attr1',width:90" >来源</th>
+				<th data-options="field:'status',width:60,align:'center'" >产品状态</th>
+			    <th data-options="field:'status',width:60,align:'center'" >商家编码</th>
+			    <th data-options="field:'lingLiaoId',align:'center',width:100,formatter:returnBtnColumn">最近更新时间</th>
+			 
+			 </tr>
+		 </thead>	 
+	     </table>            
+        
+        
+        </div>
+     </div>   
+      <!-- ---west-- -->
+      </div>
+      
+    </div>
+      <!-- --------------------------------------------我的产品库window4--------------------------------------------- -->
+		
+		
+</div>
+
+		<!--主体End -->	
+
+		
+	</div>    
+    <!-- 菜单&&邀请分销商合作 End -->
+  </body>
+</html>
